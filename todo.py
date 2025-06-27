@@ -56,6 +56,18 @@ def remover_tarefa(tarefas, indice):
     else:
         print("\n ❌ Índice inválido. Por favor, escolha um número da lista.")
 
+# Função adicionada
+def editar_tarefa(tarefas, indice, nova_descricao):
+    """Edita a descrição de uma tarefa existente com base no seu índice."""
+    indice_real = indice - 1 
+    if 0 <= indice_real < len(tarefas):
+        tarefa_antiga_descricao = tarefas[indice_real]["descricao"]
+        tarefas[indice_real]["descricao"] = nova_descricao
+        print(f"\n Descrição da tarefa '{tarefa_antiga_descricao}' atualizada para '{nova_descricao}'!")
+    else:
+        print("\n Índice inválido. Por favor, escolha um número válido da lista.")
+
+# Adicionei a linha "5"
 def exibir_menu():
     """Exibe o menu de opções para o usuário."""
     print("\n--- MENU ---")
@@ -63,13 +75,12 @@ def exibir_menu():
     print("2. Listar Tarefas")
     print("3. Marcar Tarefa como Concluída")
     print("4. Remover Tarefa")
+    print("5. Editar Descrição da Tarefa") 
     print("0. Sair")
 
 def main():
-    """Função principal que executa o loop do programa."""
-    # A lista de tarefas (nosso vetor) é criada vazia aqui.
-    # Ela existirá apenas enquanto o programa estiver em execução.
-    lista_de_tarefas = []
+    # ... (código existente antes do while True) ...
+    lista_de_tarefas = [] # Exemplo, mantenha a sua lista_de_tarefas existente
 
     while True:
         exibir_menu()
@@ -86,19 +97,37 @@ def main():
                 indice = int(input("Digite o número da tarefa para marcar como concluída: "))
                 marcar_como_concluida(lista_de_tarefas, indice)
             except ValueError:
-                print("\n ❌ Entrada inválida. Por favor, digite um número.")
+                print("\n Entrada inválida. Por favor, digite um número.")
         elif escolha == '4':
             listar_tarefas(lista_de_tarefas)
             try:
                 indice = int(input("Digite o número da tarefa para remover: "))
                 remover_tarefa(lista_de_tarefas, indice)
             except ValueError:
-                print("\n ❌ Entrada inválida. Por favor, digite um número.")
+                print("\n Entrada inválida. Por favor, digite um número.")
+        # --- Adição MAIS SIMPLIFICADA para Editar Descrição ---
+        elif escolha == '5':
+            listar_tarefas(lista_de_tarefas) # Mostra as tarefas
+            if not lista_de_tarefas:
+                print("Nenhuma tarefa para editar.")
+                continue # Volta para o início do loop
+
+            try:
+                indice = int(input("Digite o NÚMERO da tarefa que deseja editar: "))
+                nova_descricao = input("Digite a NOVA descrição para a tarefa: ").strip() # .strip() remove espaços extras
+                
+                if nova_descricao:
+                    editar_tarefa(lista_de_tarefas, indice, nova_descricao) # A função editar_tarefa já valida o índice
+                else:
+                    print("\n A nova descrição não pode ser vazia.")
+            except ValueError:
+                print("\n Entrada inválida. Por favor, digite um número.")
+        # --- Fim da Adição MAIS SIMPLIFICADA ---
         elif escolha == '0':
             print("\nObrigado por usar o Gerenciador de Tarefas. Até mais!")
             break
         else:
-            print("\n ❌ Opção inválida. Por favor, tente novamente.")
+            print("\n Opção inválida. Por favor, tente novamente.")
 
 # Garante que a função main() só será executada quando o script for rodado diretamente
 if __name__ == "__main__":
